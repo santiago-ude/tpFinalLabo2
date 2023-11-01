@@ -3,7 +3,6 @@
 #include "string.h"
 
 #define maxCaracteres 100
-#define archiDatos"archivo.bin"
 
 ///Edad
 #define edadMinima 12
@@ -77,23 +76,12 @@ typedef struct nodoSimple
 
 
 ///PROFESOR
-
 typedef struct
 {
     char materia[30];
     int sueldo;
     informacionPersonal dato;
 } profesor;
-
-///EMPLEADO
-
-typedef struct
-{
-    char puesto[30];
-    int sueldo;
-    informacionPersonal dato;
-} empleado;
-
 
 
 ///DECLARACIONES
@@ -114,7 +102,7 @@ int main()
 }
 
 
-
+///funcion main de carga de un alumno
 alumno cargarAlumno()
 {
 
@@ -138,7 +126,7 @@ alumno cargarAlumno()
     return aux;
 }
 
-
+///funcion main de carga de informacion personal
 informacionPersonal cargarInfoPersonal()
 {
 
@@ -165,7 +153,7 @@ informacionPersonal cargarInfoPersonal()
 }
 
 
-
+///validacion de tipo de dato int
 int validacionNumeros(char str[100], int min, int max, char dato[maxCaracteres])
 {
     char *endptr;
@@ -198,7 +186,7 @@ int validacionNumeros(char str[100], int min, int max, char dato[maxCaracteres])
 }
 
 
-
+///validacion de tipo de dato char/string
 int validacionString(char string[maxCaracteres])
 {
 
@@ -220,8 +208,7 @@ int validacionString(char string[maxCaracteres])
 
 
 
-///cargar edad validada
-
+///cargar edad 
 void cargarEdad(informacionPersonal* info)
 {
 
@@ -295,6 +282,7 @@ void cargarNTelefono(informacionPersonal* info)
 
 }
 
+///validacion de tipo de dato long int
 int validarNTel(long nTel)
 {
     if((long)nTel >= nTelefonoMin && (long)nTel <= nTelefonoMax)
@@ -305,6 +293,8 @@ int validarNTel(long nTel)
     return 0;
 }
 
+
+///carga de N° DNI
 void cargarDNI(alumno* alumnito)
 {
 
@@ -328,7 +318,7 @@ void cargarDNI(alumno* alumnito)
 }
 
 
-
+///carga de legajo 
 void cargarLegajo(alumno* alumnito)
 {
 
@@ -351,6 +341,7 @@ void cargarLegajo(alumno* alumnito)
     }
 }
 
+///carga de pagos
 void cargarPagos(alumno* alumnito)
 {
 
@@ -373,6 +364,7 @@ void cargarPagos(alumno* alumnito)
     }
 }
 
+///carga de curso
 void cargarCurso(alumno* alumnito)
 {
 
@@ -394,6 +386,8 @@ void cargarCurso(alumno* alumnito)
         }
     }
 }
+
+///carga de nombre
 void cargarNombre(informacionPersonal* info)
 {
     char nombre[maxCaracteres];
@@ -428,6 +422,7 @@ void cargarNombre(informacionPersonal* info)
     strcpy(info->nombre, nombre);
 }
 
+///carga de apellido
 void cargarApellido(informacionPersonal* info)
 {
     char apellido[maxCaracteres];
@@ -462,6 +457,7 @@ void cargarApellido(informacionPersonal* info)
     strcpy(info->apellido, apellido);
 }
 
+///carga de nombre de calle
 void cargarCalle(informacionPersonal* info)
 {
     char calle[maxCaracteres];
@@ -496,6 +492,7 @@ void cargarCalle(informacionPersonal* info)
     strcpy(info->calle, calle);
 }
 
+///carga de asistencia
 void cargarAsistencia(alumno* alumnito)
 {
     char asistencia[maxCaracteres];
