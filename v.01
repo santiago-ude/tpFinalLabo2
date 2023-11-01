@@ -590,11 +590,11 @@ alumno modificarDatosAlumno(alumno alumnito)
 
         if(num==1)
         {
-            cargarNombre(&alumnito);
+            cargarNombre(&alumnito.dato);
         }
         else if(num==2)
         {
-            cargarApellido(&alumnito);
+            cargarApellido(&alumnito.dato);
         }
         else if(num==3)
         {
@@ -602,23 +602,23 @@ alumno modificarDatosAlumno(alumno alumnito)
         }
         else if(num==4)
         {
-            cargarEdad(&alumnito);
+            cargarEdad(&alumnito.dato);
         }
         else if(num==5)
         {
-            cargarNDirec(&alumnito);
+            cargarNDirec(&alumnito.dato);
         }
         else if(num==6)
         {
-            cargarCalle(&alumnito);
+            cargarCalle(&alumnito.dato);
         }
         else if(num==7)
         {
-            cargarPagos(&alumnito);
+            cargarPagos(&alumnito.dato);
         }
         else if(num==8)
         {
-            cargarNTelefono(&alumnito);
+            cargarNTelefono(&alumnito.dato);
         }
         else
         {
