@@ -6,12 +6,12 @@
 #define archiDatos"archivo.bin"
 
 ///Edad
-#define edadMinima 7
-#define edadMaxima 18
-#define datoEdad "una edad valida |7-18|"
+#define edadMinima 12
+#define edadMaxima 100
+#define datoEdad "una edad valida |12-100|"
 
 ///Direccion
-#define nDirecMinimo 100
+#define nDirecMinimo 1
 #define nDirecMaximo 9999
 #define datoNDirec "un numero de direccion valido |>99|"
 
@@ -62,7 +62,6 @@ typedef struct
     int legajo;
     int pagos;
     int curso;
-    char nivel[15]; /// primaria, secundaria
     char asistencia[1];
     informacionPersonal dato;
 } alumno;
@@ -130,8 +129,6 @@ alumno cargarAlumno()
     cargarPagos(&aux);
 
     cargarCurso(&aux);
-
-    cargarNivel(&aux);
 
     cargarAsistencia(&aux);
 
@@ -531,38 +528,4 @@ void cargarAsistencia(alumno* alumnito)
     }
 
     strcpy(alumnito->asistencia, asistencia);
-}
-
-void cargarNivel(alumno* alumnito)
-{
-    char nivel[maxCaracteres];
-    printf("\n NIVEL: ");
-
-    fflush(stdin);
-    gets(nivel);
-
-    int valido = validacionString(nivel);
-
-
-    if((valido == 1) && (strcmpi(nivel, "secundaria") == 0))
-    {
-        strcpy(alumnito->nivel, nivel);
-    }
-
-    else if(valido == 0 || (strcmpi(nivel, "secundaria") != 0))
-    {
-
-        while (valido == 0 || (strcmpi(nivel, "secundaria") != 0))
-        {
-
-            printf("Ingrese una opcion valida |secundaria|\n NIVEL: ");
-            fflush(stdin);
-            gets(nivel);
-
-            valido = validacionString(nivel);
-
-        }
-    }
-
-    strcpy(alumnito->nivel, nivel);
 }
