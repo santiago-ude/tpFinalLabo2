@@ -88,16 +88,26 @@ typedef struct
 
 alumno cargarAlumno();
 informacionPersonal cargarInfoPersonal();
+alumno modificarDatosAlumno(alumno alumnito);
+void verInformacionDeAlumno(alumno alumnito);
 
 
 int main()
 {
-
+    char verInfoAlumno = 's';
     alumno alumnito = cargarAlumno();
 
+    printf("Desea ver la informacion del alumno? s/n \n");
+    fflush(stdin);
+    scanf("%c", &verInfoAlumno);
+    if(verInfoAlumno=='s')
+    {
+        verInformacionDeAlumno(alumnito);
+    }
 
+    alumnito=modificarDatosAlumno(alumnito);
 
-
+    verInformacionDeAlumno(alumnito);
     return 0;
 }
 
@@ -208,7 +218,7 @@ int validacionString(char string[maxCaracteres])
 
 
 
-///cargar edad 
+///cargar edad
 void cargarEdad(informacionPersonal* info)
 {
 
@@ -318,7 +328,7 @@ void cargarDNI(alumno* alumnito)
 }
 
 
-///carga de legajo 
+///carga de legajo
 void cargarLegajo(alumno* alumnito)
 {
 
@@ -525,4 +535,99 @@ void cargarAsistencia(alumno* alumnito)
     }
 
     strcpy(alumnito->asistencia, asistencia);
+}
+
+void verInformacionDeAlumno(alumno alumnito)
+{
+    printf("\n--------------Informacion escolar del alumno--------------\n");
+
+    printf("Legajo: %i\n", alumnito.legajo);
+
+    printf("Curso: %i\n", alumnito.curso);
+
+    printf("Pagos: ");
+
+    if(alumnito.pagos==0)
+    {
+        printf("Presenta deuda.\n");
+    }
+    else if(alumnito.pagos==1)
+    {
+        printf("Hay un pago parcial.\n");
+    }
+    else
+    {
+        printf("No presenta deuda.\n");
+    }
+    printf("\n--------------Informacion personal del alumno--------------\n");
+
+    printf("\n-Nombre y apellido: %s, %s \n", alumnito.dato.apellido, alumnito.dato.nombre);
+
+    printf("\n-N° de DNI: %i\n", alumnito.dni);
+
+    printf("\n-Edad: %i\n", alumnito.dato.edad);
+
+    printf("\n-Calle: %s\n", alumnito.dato.calle);
+
+    printf("\n-N° de direccion: %i\n", alumnito.dato.numDir);
+
+    printf("\n-N° de telefono: %ld\n", alumnito.dato.numTelefono);
+}
+
+alumno modificarDatosAlumno(alumno alumnito)
+{
+    int num=0;
+    char seguir='s';
+
+    printf("Desea modificar un dato del alumno? s/n \n");
+    fflush(stdin);
+    scanf("%c", &seguir);
+
+    while(seguir=='s')
+    {
+        printf("Que dato desea modificar?\n 1- Nombre \n 2- Apellido \n 3- N° DNI \n 4- Edad \n 5- N° direccion \n  6- Calle \n 7- Estado contable \n 8- N° telefono \n \n");
+        scanf("%i", &num);
+
+        if(num==1)
+        {
+            cargarNombre(&alumnito);
+        }
+        else if(num==2)
+        {
+            cargarApellido(&alumnito);
+        }
+        else if(num==3)
+        {
+            cargarDNI(&alumnito);
+        }
+        else if(num==4)
+        {
+            cargarEdad(&alumnito);
+        }
+        else if(num==5)
+        {
+            cargarNDirec(&alumnito);
+        }
+        else if(num==6)
+        {
+            cargarCalle(&alumnito);
+        }
+        else if(num==7)
+        {
+            cargarPagos(&alumnito);
+        }
+        else if(num==8)
+        {
+            cargarNTelefono(&alumnito);
+        }
+        else
+        {
+            printf("Esa no es una opcion correcta. \n");
+        }
+
+        printf("Desea modificar otro dato? \n");
+        fflush(stdin);
+        scanf("%c", &seguir);
+    }
+    return alumnito;
 }
