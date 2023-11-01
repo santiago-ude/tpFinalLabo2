@@ -1,0 +1,568 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "string.h"
+
+#define maxCaracteres 100
+#define archiDatos"archivo.bin"
+
+///Edad
+#define edadMinima 7
+#define edadMaxima 18
+#define datoEdad "una edad valida |7-18|"
+
+///Direccion
+#define nDirecMinimo 100
+#define nDirecMaximo 9999
+#define datoNDirec "un numero de direccion valido |>99|"
+
+///Telefono
+#define nTelefonoMin 1111111
+#define nTelefonoMax 9999999
+#define datoNTelefono "numero de telefono valido |>0|"
+
+
+///DNI
+#define dniMinimo 1
+#define dniMaximo 99999999
+#define datoDni "un DNI valido |>0|"
+
+
+///legajo
+#define legajoMinimo 1
+#define legajoMaximno 1000000000
+#define datoLegajo "un legajo valido |>0|"
+
+///pagos
+#define pagosMinimo 0
+#define pagosMaximo 2
+#define datoPagos "un Pago valido |>0|"
+
+
+///Curso
+#define cursoMinimo 1
+#define cursoMaximno 6
+#define datoCurso "un curso valido |1 - 6|"
+
+///INFO PERSONAL
+typedef struct
+{
+    char nombre[30];
+    char apellido [30];
+    int edad;
+    char calle[20];
+    int numDir;
+    long int numTelefono;
+} informacionPersonal;
+
+///ALUMNO
+
+typedef struct
+{
+    int dni;
+    int legajo;
+    int pagos;
+    int curso;
+    char nivel[15]; /// primaria, secundaria
+    char asistencia[1];
+    informacionPersonal dato;
+} alumno;
+
+
+///LISTA
+
+typedef struct nodoSimple
+{
+    struct nodoSimple* siguiente;
+    alumno dato;
+} nodoSimple;
+
+
+///PROFESOR
+
+typedef struct
+{
+    char materia[30];
+    int sueldo;
+    informacionPersonal dato;
+} profesor;
+
+///EMPLEADO
+
+typedef struct
+{
+    char puesto[30];
+    int sueldo;
+    informacionPersonal dato;
+} empleado;
+
+
+
+///DECLARACIONES
+
+alumno cargarAlumno();
+informacionPersonal cargarInfoPersonal();
+
+
+int main()
+{
+
+    alumno alumnito = cargarAlumno();
+
+
+
+
+    return 0;
+}
+
+
+
+alumno cargarAlumno()
+{
+
+    alumno aux;
+
+    printf("\n--------------CARGAR ALUMNO--------------\n");
+
+    cargarDNI(&aux);
+
+    cargarLegajo(&aux);
+
+    cargarPagos(&aux);
+
+    cargarCurso(&aux);
+
+    cargarNivel(&aux);
+
+    cargarAsistencia(&aux);
+
+    aux.dato = cargarInfoPersonal();
+
+
+    return aux;
+}
+
+
+informacionPersonal cargarInfoPersonal()
+{
+
+
+    informacionPersonal aux;
+
+
+    printf("\n--------------INFORMACION PERSONAL --------------\n");
+
+    cargarNombre(&aux);
+
+    cargarApellido(&aux);
+
+    cargarEdad(&aux);
+
+    cargarCalle(&aux);
+
+    cargarNDirec(&aux);
+
+    cargarNTelefono(&aux);
+
+
+    return aux;
+}
+
+
+
+int validacionNumeros(char str[100], int min, int max, char dato[maxCaracteres])
+{
+    char *endptr;
+    long num = strtol(str, &endptr, 10);
+    int valido =0;
+    int conv;
+
+    conv = (int)num;
+    if (*endptr == '\0' && conv >= min && conv <= max )
+    {
+        valido = 1;
+    }
+    else
+    {
+        while (valido == 0)
+        {
+            printf("Ingrese %s\n NUMERO:", dato);
+            gets(str);
+            num = strtol(str, &endptr, 10);
+            conv = (int)num;
+            if (*endptr == '\0' && conv >= min && conv <= max)
+            {
+                valido = 1;
+
+            }
+        }
+    }
+    conv = (int)num;
+    return conv;
+}
+
+
+
+int validacionString(char string[maxCaracteres])
+{
+
+    int cantidadCaracteres = strlen(string);
+    int i;
+
+    for (i = 0; i < cantidadCaracteres; i++)
+    {
+        char caracter = string[i];
+
+        if (isalpha(caracter) == 0)
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+
+
+///cargar edad validada
+
+void cargarEdad(informacionPersonal* info)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n EDAD: ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,edadMinima,edadMaxima, datoEdad);
+
+        if (operador > edadMinima && operador < edadMaxima)
+        {
+            info->edad= operador;
+            break;
+        }
+    }
+
+}
+
+///cargar numero de direccion
+void cargarNDirec(informacionPersonal* info)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n N° DIRECCION: ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,nDirecMinimo,nDirecMaximo, datoNDirec);
+
+        if (operador > nDirecMinimo && operador < nDirecMaximo)
+        {
+            info->numDir= operador;
+            break;
+        }
+    }
+
+}
+
+
+
+///cargar numero de telefono
+void cargarNTelefono(informacionPersonal* info)
+{
+    long nTel;
+
+    printf("\n N° DE TELEFONO (sin prefijo): ");
+    scanf("%ld", &nTel);
+
+    int validar = validarNTel(nTel);
+
+    while(validar != 1)
+    {
+
+        printf("\n Ingresar N° de telefono correcto: ");
+        scanf("%ld", &nTel);
+
+        validar = validarNTel(nTel);
+
+    }
+
+    info->numTelefono = nTel;
+
+}
+
+int validarNTel(long nTel)
+{
+    if((long)nTel >= nTelefonoMin && (long)nTel <= nTelefonoMax)
+    {
+        return 1;
+
+    }
+    return 0;
+}
+
+void cargarDNI(alumno* alumnito)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n DNI: ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,dniMinimo,dniMaximo, datoDni);
+
+        if (operador > dniMinimo && operador < dniMaximo)
+        {
+            alumnito->dni = operador;
+            break;
+        }
+    }
+}
+
+
+
+void cargarLegajo(alumno* alumnito)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n LEGAJO: ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,legajoMinimo,legajoMaximno, datoLegajo);
+
+        if (operador > legajoMinimo && operador < legajoMaximno)
+        {
+            alumnito->legajo = operador;
+            break;
+        }
+    }
+}
+
+void cargarPagos(alumno* alumnito)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n----PAGOS----\n|0 deuda|\n|1 pago parcial|\n|2 total pagado|\n ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,pagosMinimo,pagosMaximo, datoPagos);
+
+        if (operador > pagosMinimo && operador < pagosMaximo)
+        {
+            alumnito->pagos = operador;
+            break;
+        }
+    }
+}
+
+void cargarCurso(alumno* alumnito)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n CURSO: ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,cursoMinimo,cursoMaximno, datoCurso);
+
+        if (operador > cursoMinimo && operador < cursoMaximno)
+        {
+            alumnito->curso = operador;
+            break;
+        }
+    }
+}
+void cargarNombre(informacionPersonal* info)
+{
+    char nombre[maxCaracteres];
+    printf("\n NOMBRE: ");
+
+    fflush(stdin);
+    gets(nombre);
+
+    int valido = validacionString(nombre);
+
+
+    if(valido == 1)
+    {
+        strcpy(info->nombre, nombre);
+    }
+
+    else if(valido == 0)
+    {
+
+        while (valido == 0)
+        {
+
+            printf("Ingrese un nombre valido\n NOMBRE: ");
+            fflush(stdin);
+            gets(nombre);
+
+            valido = validacionString(nombre);
+
+        }
+    }
+
+    strcpy(info->nombre, nombre);
+}
+
+void cargarApellido(informacionPersonal* info)
+{
+    char apellido[maxCaracteres];
+    printf("\n APELLIDO: ");
+
+    fflush(stdin);
+    gets(apellido);
+
+    int valido = validacionString(apellido);
+
+
+    if(valido == 1)
+    {
+        strcpy(info->apellido, apellido);
+    }
+
+    else if(valido == 0)
+    {
+
+        while (valido == 0)
+        {
+
+            printf("Ingrese un apellido valido\n APELLIDO: ");
+            fflush(stdin);
+            gets(apellido);
+
+            valido = validacionString(apellido);
+
+        }
+    }
+
+    strcpy(info->apellido, apellido);
+}
+
+void cargarCalle(informacionPersonal* info)
+{
+    char calle[maxCaracteres];
+    printf("\n CALLE: ");
+
+    fflush(stdin);
+    gets(calle);
+
+    int valido = validacionString(calle);
+
+
+    if(valido == 1)
+    {
+        strcpy(info->calle, calle);
+    }
+
+    else if(valido == 0)
+    {
+
+        while (valido == 0)
+        {
+
+            printf("Ingrese una calle valida\n CALLE: ");
+            fflush(stdin);
+            gets(calle);
+
+            valido = validacionString(calle);
+
+        }
+    }
+
+    strcpy(info->calle, calle);
+}
+
+void cargarAsistencia(alumno* alumnito)
+{
+    char asistencia[maxCaracteres];
+    printf("\n ASISTENCIA: ");
+
+    fflush(stdin);
+    gets(asistencia);
+
+    int valido = validacionString(asistencia);
+
+
+    if((valido == 1) && (strcmpi(asistencia, "p") == 0) && (strcmpi(asistencia, "a")))
+    {
+        strcpy(alumnito->asistencia, asistencia);
+    }
+
+    else if(valido == 0 || ((strcmpi(asistencia, "p") != 0) && (strcmpi(asistencia, "a"))))
+    {
+
+        while (valido == 0 || ((strcmpi(asistencia, "p") != 0) && (strcmpi(asistencia, "a"))))
+        {
+
+            printf("Ingrese una opcion valida |A/a - P/p|\n ASISTENCIA: ");
+            fflush(stdin);
+            gets(asistencia);
+
+            valido = validacionString(asistencia);
+
+        }
+    }
+
+    strcpy(alumnito->asistencia, asistencia);
+}
+
+void cargarNivel(alumno* alumnito)
+{
+    char nivel[maxCaracteres];
+    printf("\n NIVEL: ");
+
+    fflush(stdin);
+    gets(nivel);
+
+    int valido = validacionString(nivel);
+
+
+    if((valido == 1) && (strcmpi(nivel, "secundaria") == 0))
+    {
+        strcpy(alumnito->nivel, nivel);
+    }
+
+    else if(valido == 0 || (strcmpi(nivel, "secundaria") != 0))
+    {
+
+        while (valido == 0 || (strcmpi(nivel, "secundaria") != 0))
+        {
+
+            printf("Ingrese una opcion valida |secundaria|\n NIVEL: ");
+            fflush(stdin);
+            gets(nivel);
+
+            valido = validacionString(nivel);
+
+        }
+    }
+
+    strcpy(alumnito->nivel, nivel);
+}
