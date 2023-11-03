@@ -43,6 +43,11 @@
 #define cursoMaximno 6
 #define datoCurso "un curso valido |1 - 6|"
 
+///Sueldo
+#define sueldoMinimo 49999
+#define sueldoMaximno 2000000
+#define datosueldo "un sueldo valido |50k - 2M|"
+
 ///INFO PERSONAL
 typedef struct
 {
