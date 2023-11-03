@@ -639,7 +639,7 @@ alumno modificarDatosAlumno(alumno alumnito)
 
     while(seguir=='s')
     {
-        printf("Que dato desea modificar?\n 1- Nombre \n 2- Apellido \n 3- N° DNI \n 4- Edad \n 5- N° direccion \n  6- Calle \n 7- Estado contable \n 8- N° telefono \n \n");
+        printf("Que dato desea modificar?\n 1- Nombre \n 2- Apellido \n 3- N° DNI \n 4- Edad \n 5- N° direccion \n  6- Calle \n 7- N° telefono \n \n");
         scanf("%i", &num);
 
         if(num==1)
@@ -652,7 +652,7 @@ alumno modificarDatosAlumno(alumno alumnito)
         }
         else if(num==3)
         {
-            cargarDNI(&alumnito);
+            cargarDNI(&alumnito.dato);
         }
         else if(num==4)
         {
@@ -667,10 +667,6 @@ alumno modificarDatosAlumno(alumno alumnito)
             cargarCalle(&alumnito.dato);
         }
         else if(num==7)
-        {
-            cargarPagos(&alumnito.dato);
-        }
-        else if(num==8)
         {
             cargarNTelefono(&alumnito.dato);
         }
