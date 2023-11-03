@@ -28,12 +28,12 @@
 
 
 ///legajo
-#define legajoMinimo 1
+#define legajoMinimo 0
 #define legajoMaximno 1000000000
 #define datoLegajo "un legajo valido |>0|"
 
 ///pagos
-#define pagosMinimo 0
+#define pagosMinimo -1
 #define pagosMaximo 2
 #define datoPagos "un Pago valido |>0|"
 
@@ -864,4 +864,79 @@ void verInformacionDeProfesor(profesor profe)
 
     printf("\n-N° de telefono: %ld\n", profe.dato.numTelefono);
 }
+
+
+///--------------------------------
+void cargarMateria(profesor* profe)
+{
+    char materia[maxCaracteres];
+    printf("\n MATERIA: ");
+
+    fflush(stdin);
+    fgets(materia, maxCaracteres, stdin);
+
+    int valido = validarStringNombre(materia);
+
+
+    if(valido == 1)
+    {
+        strcpy(profe->materia, materia);
+    }
+
+    else if(valido == 0)
+    {
+
+        while (valido == 0)
+        {
+
+            printf("Ingrese una materia valida\n MATERIA: ");
+            fflush(stdin);
+            fgets(materia, maxCaracteres, stdin);
+
+            valido = validarStringNombre(materia);
+
+        }
+    }
+
+    strcpy(profe->materia, materia);
+}
+
+void cargarSueldo(profesor* profe)
+{
+
+    int operador = -1;
+    char strOpcion[maxCaracteres];
+
+    printf("\n SUELDO: ");
+    fflush(stdin);
+    gets(strOpcion);
+
+    while(operador < 0)
+    {
+        operador = validacionNumeros(strOpcion,sueldoMinimo,sueldoMaximno, datosueldo);
+
+        if (operador > sueldoMinimo && operador < sueldoMaximno)
+        {
+            profe->sueldo = operador;
+            break;
+        }
+    }
+}
+
+
+///falta terminar
+profesor* cargarProfesor(){
+
+
+profesor aux;
+
+
+cargarMateria(&aux);
+
+cargarSueldo(&aux);
+
+aux.dato = cargarInfoPersonal();
+return aux;
+}
+
 
