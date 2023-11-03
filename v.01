@@ -533,9 +533,9 @@ void cargarCalle(informacionPersonal* info)
     printf("\n CALLE: ");
 
     fflush(stdin);
-    gets(calle);
+    fgets(calle,maxCaracteres,stdin);
 
-    int valido = validacionString(calle);
+    int valido = validarStringNombre(calle);
 
 
     if(valido == 1)
