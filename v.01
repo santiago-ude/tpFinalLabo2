@@ -89,8 +89,33 @@ typedef struct
 
 alumno cargarAlumno();
 informacionPersonal cargarInfoPersonal();
-alumno modificarDatosAlumno(alumno alumnito);
+int validacionNumeros(char str[100], int min, int max, char dato[maxCaracteres]);
+int validacionString(char string[maxCaracteres]);
+void cargarEdad(informacionPersonal* info);
+void cargarNDirec(informacionPersonal* info);
+void cargarNTelefono(informacionPersonal* info);
+int validarNTel(long nTel);
+void cargarDNI(informacionPersonal* info);
+void cargarLegajo(alumno* alumnito);
+void cargarPagos(alumno* alumnito);
+void cargarCurso(alumno* alumnito);
+void cargarNombre(informacionPersonal* info);
+void cargarApellido(informacionPersonal* info);
+void cargarCalle(informacionPersonal* info);
+void cargarAsistencia(alumno* alumnito);
 void verInformacionDeAlumno(alumno alumnito);
+alumno modificarDatosAlumno(alumno alumnito);
+void CargarArchivoDeAlumnos();
+void CargarArchivoDeProfesores();
+void verAlumnosEnArchivo();
+profesor modificarDatosProfesor(profesor profe);
+profesor cargarProfesor();
+
+
+
+
+const char archivoAlumnos[40]= "archivoAlumnos.bin";
+const char archivoProfesores[40]="archivoProfesores.bin";
 
 
 int main()
@@ -659,6 +684,132 @@ alumno modificarDatosAlumno(alumno alumnito)
         scanf("%c", &seguir);
     }
     return alumnito;
+}
+
+void CargarArchivoDeAlumnos()
+{
+    FILE* buffer=fopen(archivoAlumnos, "ab");
+    alumno aux;
+    char seguir='s';
+
+    if(buffer)
+    {
+        while(seguir=='s')
+        {
+            aux=cargarAlumno();
+            fwrite(&aux, sizeof(alumno),1,buffer);
+
+            printf("Desea cargar otro alumno? \n");
+            fflush(stdin);
+            scanf("%c", &seguir);
+        }
+        fclose(buffer);
+    }
+}
+
+void CargarArchivoDeProfesores()
+{
+    FILE* buffer=fopen(archivoProfesores, "ab");
+    profesor aux;
+    char seguir='s';
+
+    if(buffer)
+    {
+        while(seguir=='s')
+        {
+            aux=cargarProfesor();
+            fwrite(&aux, sizeof(profesor),1,buffer);
+
+            printf("Desea cargar otro profesor? \n");
+            fflush(stdin);
+            scanf("%c", &seguir);
+        }
+        fclose(buffer);
+    }
+}
+
+void verAlumnosEnArchivo()
+{
+    FILE* buffer=fopen(archivoAlumnos, "rb");
+    alumno aux;
+
+    if(buffer)
+    {
+        while(fread(&aux,sizeof(alumno),1,buffer)>0)
+        {
+            verInformacionDeAlumno(aux);
+        }
+        fclose(buffer);
+    }
+}
+
+profesor modificarDatosProfesor(profesor profe)
+{
+    int num=0;
+    char seguir='s';
+
+    printf("Desea modificar un dato del profesor? s/n \n");
+    fflush(stdin);
+    scanf("%c", &seguir);
+
+    while(seguir=='s')
+    {
+        printf("Que dato desea modificar?\n 1- Nombre \n 2- Apellido \n 3- N° DNI \n 4- Edad \n 5- N° direccion \n  6- Calle \n 7- N° telefono \n \n");
+        scanf("%i", &num);
+
+        if(num==1)
+        {
+            cargarNombre(&profe.dato);
+        }
+        else if(num==2)
+        {
+            cargarApellido(&profe.dato);
+        }
+        else if(num==3)
+        {
+            cargarDNI(&profe.dato);
+        }
+        else if(num==4)
+        {
+            cargarEdad(&profe.dato);
+        }
+        else if(num==5)
+        {
+            cargarNDirec(&profe.dato);
+        }
+        else if(num==6)
+        {
+            cargarCalle(&profe.dato);
+        }
+        else if(num==7)
+        {
+            cargarNTelefono(&profe.dato);
+        }
+        else
+        {
+            printf("Esa no es una opcion correcta. \n");
+        }
+
+        printf("Desea modificar otro dato? \n");
+        fflush(stdin);
+        scanf("%c", &seguir);
+    }
+    return profe;
+}
+
+profesor cargarProfesor()
+{
+    profesor aux;
+
+    printf("\n--------------CARGAR PROFESOR--------------\n");
+
+    cargarMateria(&aux);
+
+    cargarSueldo(&aux);
+
+    aux.dato = cargarInfoPersonal();
+
+    return aux;
 }
 
 void centrarTexto(char texto[], int y)
