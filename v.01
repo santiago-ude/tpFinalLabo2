@@ -15,13 +15,13 @@
 #define datoNDirec "un numero de direccion valido |>99|"
 
 ///Telefono
-#define nTelefonoMin 1111111
+#define nTelefonoMin 1000000
 #define nTelefonoMax 9999999
 #define datoNTelefono "numero de telefono valido |>0|"
 
 
 ///DNI
-#define dniMinimo 1
+#define dniMinimo 10000000
 #define dniMaximo 99999999
 #define datoDni "un DNI valido |>0|"
 
@@ -48,6 +48,7 @@ typedef struct
     char nombre[30];
     char apellido [30];
     int edad;
+    int dni;
     char calle[20];
     int numDir;
     long int numTelefono;
@@ -57,7 +58,6 @@ typedef struct
 
 typedef struct
 {
-    int dni;
     int legajo;
     int pagos;
     int curso;
@@ -120,7 +120,6 @@ alumno cargarAlumno()
 
     printf("\n--------------CARGAR ALUMNO--------------\n");
 
-    cargarDNI(&aux);
 
     cargarLegajo(&aux);
 
@@ -151,6 +150,8 @@ informacionPersonal cargarInfoPersonal()
     cargarApellido(&aux);
 
     cargarEdad(&aux);
+
+    cargarDNI(&aux);
 
     cargarCalle(&aux);
 
@@ -213,6 +214,19 @@ int validacionString(char string[maxCaracteres])
         }
     }
 
+    return 1;
+}
+
+
+int validarStringNombre(char nombre[])
+{
+    for(int i=0; i<strlen(nombre); i++)
+    {
+        if(!isalpha(nombre[i]) && !isspace(nombre[i]))
+        {
+            return 0;
+        }
+    }
     return 1;
 }
 
@@ -305,7 +319,7 @@ int validarNTel(long nTel)
 
 
 ///carga de N° DNI
-void cargarDNI(alumno* alumnito)
+void cargarDNI(informacionPersonal* info)
 {
 
     int operador = -1;
@@ -321,7 +335,7 @@ void cargarDNI(alumno* alumnito)
 
         if (operador > dniMinimo && operador < dniMaximo)
         {
-            alumnito->dni = operador;
+            info->dni = operador;
             break;
         }
     }
@@ -404,9 +418,9 @@ void cargarNombre(informacionPersonal* info)
     printf("\n NOMBRE: ");
 
     fflush(stdin);
-    gets(nombre);
+    fgets(nombre, maxCaracteres, stdin);
 
-    int valido = validacionString(nombre);
+    int valido = validarStringNombre(nombre);
 
 
     if(valido == 1)
@@ -422,9 +436,9 @@ void cargarNombre(informacionPersonal* info)
 
             printf("Ingrese un nombre valido\n NOMBRE: ");
             fflush(stdin);
-            gets(nombre);
+            fgets(nombre, 50, stdin);
 
-            valido = validacionString(nombre);
+            valido = validarStringNombre(nombre);
 
         }
     }
@@ -439,9 +453,10 @@ void cargarApellido(informacionPersonal* info)
     printf("\n APELLIDO: ");
 
     fflush(stdin);
-    gets(apellido);
+    fgets(apellido, maxCaracteres, stdin);
 
-    int valido = validacionString(apellido);
+
+    int valido = validarStringNombre(apellido);
 
 
     if(valido == 1)
@@ -457,9 +472,10 @@ void cargarApellido(informacionPersonal* info)
 
             printf("Ingrese un apellido valido\n APELLIDO: ");
             fflush(stdin);
-            gets(apellido);
+            fgets(apellido, maxCaracteres, stdin);
 
-            valido = validacionString(apellido);
+
+            valido = validarStringNombre(apellido);
 
         }
     }
@@ -563,7 +579,7 @@ void verInformacionDeAlumno(alumno alumnito)
 
     printf("\n-Nombre y apellido: %s, %s \n", alumnito.dato.apellido, alumnito.dato.nombre);
 
-    printf("\n-N° de DNI: %i\n", alumnito.dni);
+    printf("\n-N° de DNI: %i\n", alumnito.dato.dni);
 
     printf("\n-Edad: %i\n", alumnito.dato.edad);
 
