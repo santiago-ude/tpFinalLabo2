@@ -929,19 +929,6 @@ void cargarSueldo(profesor* profe)
 }
 
 
-///falta terminar
-profesor* cargarProfesor(){
 
-
-profesor aux;
-
-
-cargarMateria(&aux);
-
-cargarSueldo(&aux);
-
-aux.dato = cargarInfoPersonal();
-return aux;
-}
 
 
