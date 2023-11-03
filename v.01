@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "string.h"
+#include "gotoxy.h"
 
 #define maxCaracteres 100
 
@@ -94,6 +95,18 @@ void verInformacionDeAlumno(alumno alumnito);
 
 int main()
 {
+    color(9);
+    centrarTexto("BIENVENIDO!", 0);
+    centrarTexto("Colegio UTN", 2);
+    centrarTexto("Nivel Secundario", 4);
+    centrarTexto("Desde 1999", 6);
+
+    centrarTexto("Avenida Dorrego 281", 10);
+    centrarTexto("Mar del plata, Buenos Aires", 12);
+    centrarTexto("TEL: 480-1220", 14);
+    centrarTexto("--------------------------------------", 16);
+    color(15);
+
     char verInfoAlumno = 's';
     alumno alumnito = cargarAlumno();
 
@@ -646,4 +659,11 @@ alumno modificarDatosAlumno(alumno alumnito)
         scanf("%c", &seguir);
     }
     return alumnito;
+}
+
+void centrarTexto(char texto[], int y)
+{
+    int tamanio=strlen(texto);
+    gotoxy(90-(tamanio/2), y);
+    printf("%s \n",texto);
 }
