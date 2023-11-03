@@ -814,3 +814,54 @@ void centrarTexto(char texto[], int y)
     gotoxy(90-(tamanio/2), y);
     printf("%s \n",texto);
 }
+
+void verArchivoProfesores()
+{
+    FILE* buffer=fopen(archivoProfesores, "rb");
+    profesor aux;
+
+    if(buffer)
+    {
+        while(fread(&aux,sizeof(alumno),1,buffer)>0)
+        {
+            verInformacionDeProfesor(aux);
+        }
+        fclose(buffer);
+    }
+}
+
+void verInformacionDeProfesor(profesor profe)
+{
+    printf("\n--------------Informacion escolar del profesor--------------\n");
+
+    printf("Materia: %s \n", profe.materia);
+
+    printf("Pagos: ");
+
+    if(profe.sueldo==0)
+    {
+        printf("Falta pagar.\n");
+    }
+    else if(profe.sueldo==1)
+    {
+        printf("Hay un pago parcial.\n");
+    }
+    else
+    {
+        printf("Pago completo.\n");
+    }
+    printf("\n--------------Informacion personal del alumno--------------\n");
+
+    printf("\n-Nombre y apellido: %s, %s \n", profe.dato.apellido, profe.dato.nombre);
+
+    printf("\n-N° de DNI: %i\n", profe.dato.dni);
+
+    printf("\n-Edad: %i\n", profe.dato.edad);
+
+    printf("\n-Calle: %s\n", profe.dato.calle);
+
+    printf("\n-N° de direccion: %i\n", profe.dato.numDir);
+
+    printf("\n-N° de telefono: %ld\n", profe.dato.numTelefono);
+}
+
